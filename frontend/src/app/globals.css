@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.mantine-TextInput-input,
+.mantine-PasswordInput-input {
+  border-radius: 8px;
+}
+
+/* Rotate the SVG icon when the input element has data-expanded="true" */
+input[data-expanded="true"] ~ .mantine-Input-section svg {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+/* Reverse the rotation when the data-expanded attribute is false or not present */
+input[data-expanded="false"] ~ .mantine-Input-section svg,
+input:not([data-expanded]) ~ .mantine-Input-section svg {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+/* Rotate the SVG icon when the input element has data-expanded="true" */
+div[data-expanded="true"] ~ .mantine-Input-section svg {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+/* Reverse the rotation when the data-expanded attribute is false or not present */
+div[data-expanded="false"] ~ .mantine-Input-section svg,
+div:not([data-expanded]) ~ .mantine-Input-section svg {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
