@@ -3,6 +3,7 @@ import { ErrorToast, SuccessToast } from "@/utils/customToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import makeApiRequest from "@/services/makeApiRequest";
 import { FormTypes } from "@/types/task.types";
+import { AxiosError } from "axios";
 
 export const useUpdateTaskMutation = (handleClose: () => void) => {
   const queryClient = useQueryClient();
@@ -22,8 +23,13 @@ export const useUpdateTaskMutation = (handleClose: () => void) => {
       SuccessToast({ title: response?.message });
       handleClose();
     },
-    onError: (error) => {
-      ErrorToast({ title: error?.message });
+    onError: (error: AxiosError<{ message: string }>) => {
+      ErrorToast({
+        title:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      });
     },
   });
 };

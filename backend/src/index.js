@@ -7,7 +7,6 @@ connectDB()
       if (err) {
         console.log(err, "Here I have console log the error");
       }
-      console.log("Database connected");
       console.log("Server running on, ", process.env.PORT);
     });
   })

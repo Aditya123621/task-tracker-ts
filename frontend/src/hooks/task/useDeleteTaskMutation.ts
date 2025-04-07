@@ -1,24 +1,24 @@
+import { apiEndPoints } from "@/services/apiEndPoints";
+import { ErrorToast, SuccessToast } from "@/utils/customToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import makeApiRequest from "@/services/makeApiRequest";
-import { ErrorToast, SuccessToast } from "@/utils/customToast";
-import { apiEndPoints } from "@/services/apiEndPoints";
-import { FormTypes } from "@/types/task.types";
 import { AxiosError } from "axios";
 
-export const useCreateTaskMutation = (handleClose: () => void) => {
+export const useDeleteTaskMutation = (handleClose: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: FormTypes) => {
-      const response = await makeApiRequest.post(
-        apiEndPoints?.CREATE_TASK,
-        data
+    mutationFn: async (id: string | number) => {
+      const response = await makeApiRequest.delete(
+        `${apiEndPoints.DELETE_TASK}/${id}`
       );
       return response.data;
     },
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      SuccessToast({ title: res?.message });
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"],
+      });
+      SuccessToast({ title: response?.message || "Task deleted successfully" });
       handleClose();
     },
     onError: (error: AxiosError<{ message: string }>) => {

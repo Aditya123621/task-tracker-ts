@@ -4,4 +4,5 @@ export interface FormTypes {
   task_desc: string;
   task_status: string;
   task_priority: string;
+  updatedAt?: Date;
 }

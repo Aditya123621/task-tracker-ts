@@ -8,6 +8,7 @@ import { useCreateTaskMutation } from "@/hooks/task/useCreateTaskMutation";
 import { FormTypes } from "@/types/task.types";
 import { useEffect } from "react";
 import { useUpdateTaskMutation } from "@/hooks/task/useUpdateTaskMutation";
+import { useDeleteTaskMutation } from "@/hooks/task/useDeleteTaskMutation";
 
 const CreateAndUpdateTask = () => {
   const defaultValues = {
@@ -24,10 +25,11 @@ const CreateAndUpdateTask = () => {
     control,
     formState: { errors },
   } = useForm({ defaultValues });
-  console.log(errors, "errors");
   const drawerInfo = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
+
+  console.log(watch(), "watchwatch");
 
   useEffect(() => {
     if (drawerInfo?.helperData) {
@@ -37,16 +39,17 @@ const CreateAndUpdateTask = () => {
     }
   }, [drawerInfo, reset]);
 
-  console.log(drawerInfo, "drawerInfo");
-
   const handleClose = () => {
+    console.log("Closessseddd");
     dispatch(closeDrawer());
-    reset();
+    reset(defaultValues);
   };
   const { mutate: createTaskAPI, isPending: createTaskAPILoading } =
     useCreateTaskMutation(handleClose);
   const { mutate: updateTaskAPI, isPending: updateTaskAPILoading } =
     useUpdateTaskMutation(handleClose);
+  const { mutate: deleteTaskAPI, isPending: deleteTaskAPILoading } =
+    useDeleteTaskMutation(handleClose);
   const createTask = (data: FormTypes) => {
     if (drawerInfo?.helperData && drawerInfo?.helperData?._id) {
       updateTaskAPI({ id: drawerInfo?.helperData?._id, data });
@@ -195,7 +198,7 @@ const CreateAndUpdateTask = () => {
             />
           )}
         />
-        <div className="flex items-center justify-center">
+        <div className="flex gap-6 items-center justify-center">
           <Button
             type="submit"
             size="md"
@@ -205,6 +208,23 @@ const CreateAndUpdateTask = () => {
           >
             {drawerInfo?.helperData ? "Update" : "Add"}
           </Button>
+          {drawerInfo?.helperData && drawerInfo?.helperData?._id && (
+            <Button
+              color="red"
+              type="button"
+              size="md"
+              loading={deleteTaskAPILoading}
+              radius={"md"}
+              onClick={() => {
+                if (drawerInfo?.helperData?._id) {
+                  deleteTaskAPI(drawerInfo?.helperData?._id);
+                }
+              }}
+              classNames={{ inner: "px-4", root: "mt-2", label: "text-white" }}
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </form>
     </Modal>

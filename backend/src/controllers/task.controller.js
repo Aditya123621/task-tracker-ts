@@ -95,3 +95,32 @@ export const updateTaskController = async (req, res) => {
     });
   }
 };
+
+// Controller to delete a task
+export const deleteTaskController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the task by ID and delete it
+    const deletedTask = await CreateTask.findByIdAndDelete(id);
+
+    if (!deletedTask) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
+      data: deletedTask,
+    });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
