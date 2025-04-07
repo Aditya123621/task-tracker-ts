@@ -48,7 +48,7 @@ const CreateAndUpdateTask = () => {
   const { mutate: updateTaskAPI, isPending: updateTaskAPILoading } =
     useUpdateTaskMutation(handleClose);
   const createTask = (data: FormTypes) => {
-    if (drawerInfo?.helperData) {
+    if (drawerInfo?.helperData && drawerInfo?.helperData?._id) {
       updateTaskAPI({ id: drawerInfo?.helperData?._id, data });
     } else {
       createTaskAPI(data);

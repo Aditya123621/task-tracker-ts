@@ -12,14 +12,11 @@ import { useGetTasksQuery } from "@/hooks/task/useGetTasksQuery";
 import { FormTypes } from "@/types/task.types";
 import { taskData } from "@/data/taskData";
 
-interface TaskWithID extends FormTypes {
-  _id: number;
-}
 interface TaskGroup {
   id: number;
   title: string;
   backgroundColor: string;
-  data: TaskWithID[];
+  data: FormTypes[];
 }
 
 type TaskStatusTitle =
@@ -49,7 +46,7 @@ const Home = () => {
         const taskGroupTitle = taskGroup.title as TaskStatusTitle;
         const matchingStatus = statusMap?.[taskGroupTitle];
         const filteredTasks = getAllTasks?.data?.filter(
-          (task: TaskWithID) => task.task_status === matchingStatus
+          (task: FormTypes) => task.task_status === matchingStatus
         );
         return {
           ...taskGroup,

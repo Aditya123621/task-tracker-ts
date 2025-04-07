@@ -1,9 +1,10 @@
+import { FormTypes } from "@/types/task.types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface DrawerState {
   isDrawerOpen: {
     status: boolean;
-    helperData: Record<string, any> | null; // Replace `any` with a more specific type if possible
+    helperData: FormTypes | null; // Replace `any` with a more specific type if possible
   };
 }
 
@@ -15,7 +16,7 @@ const drawerSlice = createSlice({
   name: "drawer",
   initialState,
   reducers: {
-    openDrawer: (state, action: PayloadAction<Record<string, any> | null>) => {
+    openDrawer: (state, action: PayloadAction<FormTypes | null>) => {
       state.isDrawerOpen.status = true;
       state.isDrawerOpen.helperData = action?.payload || null;
     },
